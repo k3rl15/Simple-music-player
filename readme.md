@@ -14,6 +14,9 @@ A simple music player application using Pygame.
 1. Run the `music_player.py` script.
 2. Select the folder containing your music files when prompted.
 3. Use the buttons to control playback and manage the queue.
+4. Download the `music_player.exe` file and the `music_pix.ico` image.
+5. Select the folder containing your music files when prompted.
+6. Use the buttons to control playback and manage the queue.
 
 ## Requirements
 
