@@ -1,5 +1,4 @@
 """
-music_player.py
 A simple music player application using Pygame.
 """
 
@@ -78,23 +77,39 @@ def draw_button_and_center_text(x, y, width, height, color, text, text_color):
     return button
 
 
-def draw_song_list(selected):
+def draw_song_list(selected, queue):
     """
-    Draws the list of songs.
+    Draws the list of songs and songs in queue if any.
     """
-    y = 20
+    y = 32
     songs = 0
+    queued = 0
     song_choice = os.path.basename(selected) if selected else None
+    draw_button_and_center_text((WIDTH // 4) - 80, 7, 200, 25, BLUE, 'Song List:', WHITE)
     for song_path in music_files:
         songs += 1
         song_name = os.path.basename(song_path)
         if song_choice == song_name:
-            draw_button_and_center_text(WIDTH // 2 - 100, y, 200, 30, BLUE, song_name, WHITE)
+            draw_button_and_center_text(WIDTH // 4 - 80, y, 200, 30, BLUE, song_name, WHITE)
         else:
-            draw_button_and_center_text(WIDTH // 2 - 100, y, 200, 30, GRAY, song_name, BLACK)
+            draw_button_and_center_text(WIDTH // 4 - 80, y, 200, 30, GRAY, song_name, BLACK)
         y += 25
         if songs == 10:
-            print("Warning: Displaying only the first 10 songs.")
+            break
+        
+    y2 = 32
+    draw_button_and_center_text((WIDTH // 4) * 3 - 100, 7, 200, 25, BLUE, 'Queued Songs:', WHITE)
+    for i, song_path in enumerate(queue):
+        queued += 1
+        song_name = os.path.basename(song_path)
+        if i == 0:
+            draw_button_and_center_text((WIDTH // 4) * 3 - 100, y2, 200, 30, WHITE, song_name, GREEN)
+        else:
+            draw_button_and_center_text((WIDTH // 4) * 3 - 100, y2, 200, 30, WHITE, song_name, RED)
+        y2 += 25
+        if queued == 10:
+            break
+        
 
 
 # Pygame setup
@@ -146,7 +161,7 @@ if music_folder:
 
     while playing and music_files:
         win.fill(WHITE)
-        draw_song_list(selected_song)
+        draw_song_list(selected_song, music_player.queue)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -168,9 +183,9 @@ if music_folder:
                 if add_to_queue_button.collidepoint(mouse_pos):
                     music_player.enqueue(selected_song)
 
-                if 20 <= event.pos[0] <= WIDTH - 20:
+                if  WIDTH // 4 - 80 <= event.pos[0] <= (WIDTH // 4 - 80) + 200:
                     for i, song_path in enumerate(music_files):
-                        if 20 + i * 25 <= event.pos[1] <= 50 + i * 25:
+                        if 32 + i * 25 <= event.pos[1] <= 62 + i * 25:
                             if selected_song == song_path:
                                 selected_song = None
                             else:
