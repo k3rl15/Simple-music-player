@@ -4,7 +4,7 @@ A simple music player application using Pygame.
 
 ## Features
 
-- Plays music files from a specified folder.
+- Plays music files from a specified folder (Limit: 10 songs).
 - Supports common music file formats (e.g., mp3, wav, m4a).
 - Allows users to pause, play, skip, and add songs to a queue.
 - Displays a list of available songs with interactive buttons.
