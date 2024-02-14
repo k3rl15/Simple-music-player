@@ -9,6 +9,7 @@ from rainbow import colors
 import tkinter as tk
 from tkinter import filedialog
 
+
 class MusicPlayer:
     """
     A class representing a music player.
@@ -72,7 +73,7 @@ def draw_button_and_center_text(x, y, width, height, color, text, text_color):
     button = pygame.draw.rect(win, color, (x, y, width, height))
     text_surface = font.render(text, True, text_color)
     text_rect = text_surface.get_rect()
-    text_rect.center = (x + width // 2, y + height // 2-2)
+    text_rect.center = (x + width // 2, y + height // 2 - 2)
     win.blit(text_surface, text_rect)
     return button
 
@@ -90,13 +91,13 @@ def draw_song_list(selected, queue):
         songs += 1
         song_name = os.path.basename(song_path)
         if song_choice == song_name:
-            draw_button_and_center_text(WIDTH // 4 - 80, y, 200, 30, BLUE, song_name, WHITE)
+            draw_button_and_center_text(WIDTH // 4 - 80, y, 200, 30, YELLOW, song_name, BLACK)
         else:
             draw_button_and_center_text(WIDTH // 4 - 80, y, 200, 30, GRAY, song_name, BLACK)
         y += 25
         if songs == 10:
             break
-        
+
     y2 = 32
     draw_button_and_center_text((WIDTH // 4) * 3 - 100, 7, 200, 25, BLUE, 'Queued Songs:', WHITE)
     for i, song_path in enumerate(queue):
@@ -109,13 +110,13 @@ def draw_song_list(selected, queue):
         y2 += 25
         if queued == 10:
             break
-        
 
 
 # Pygame setup
 pygame.init()
 pygame.font.init()
 clock = pygame.time.Clock()
+icon_image = pygame.image.load("music_pix.ico")
 
 # Colors
 WHITE = (255, 255, 255)
@@ -142,6 +143,7 @@ music_folder = filedialog.askdirectory(title="Select Music Folder")
 # Create the window
 win = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Music Player")
+pygame.display.set_icon(icon_image)
 
 # Check if music folder is selected
 if music_folder:
@@ -183,7 +185,7 @@ if music_folder:
                 if add_to_queue_button.collidepoint(mouse_pos):
                     music_player.enqueue(selected_song)
 
-                if  WIDTH // 4 - 80 <= event.pos[0] <= (WIDTH // 4 - 80) + 200:
+                if WIDTH // 4 - 80 <= event.pos[0] <= (WIDTH // 4 - 80) + 200:
                     for i, song_path in enumerate(music_files):
                         if 32 + i * 25 <= event.pos[1] <= 62 + i * 25:
                             if selected_song == song_path:
@@ -197,12 +199,14 @@ if music_folder:
         # buttons
         play_button = draw_button_and_center_text(70, 300, button_width, 30, BLUE, 'Play', WHITE)
         pause_button = draw_button_and_center_text(70 + (button_width * 2), 300, button_width, 30, RED, 'Pause', WHITE)
-        skip_button = draw_button_and_center_text(70 + (button_width * 4) + 10, 300, button_width, 30, GREEN, 'Skip', WHITE)
-        add_to_queue_button = draw_button_and_center_text(70 + (button_width * 6) + 10, 300, button_width, 30, YELLOW, 'Add', WHITE)
+        skip_button = draw_button_and_center_text(70 + (button_width * 4) + 10, 300, button_width, 30, GREEN, 'Skip',
+                                                  WHITE)
+        add_to_queue_button = draw_button_and_center_text(70 + (button_width * 6) + 10, 300, button_width, 30, YELLOW,
+                                                          'Add', WHITE)
 
         if music_player.current_song:
             now_playing = f'Now Playing: {os.path.basename(music_player.current_song)}'
-            now_playing_button = draw_button_and_center_text(100, 350, 300, 32, GRAY, now_playing, colors(r,g,b))
+            now_playing_button = draw_button_and_center_text(100, 350, 300, 32, GRAY, now_playing, colors(r, g, b))
 
         r, g, b = colors(r, g, b)
 
